@@ -84,3 +84,66 @@ form.addEventListener("submit", (e)=> {
         else span.classList.add("none");
     });
 });
+
+//formulario contacto:
+const form2 = document.querySelector("#contacto");
+
+form2.addEventListener("change", (e)=>{
+    const inputs2 = document.querySelectorAll("#contacto input");
+    inputs2.forEach((input)=>{
+        if(e.target===input){
+            let span = document.querySelector(`#${input.id}Span`);
+                if(!span){
+                    const spanVirtual=document.createElement("span");
+                    spanVirtual.id=`${input.id}Span`
+                    spanVirtual.classList.add(`error`, `none`);
+                    spanVirtual.textContent=input.title;
+                    span=spanVirtual;
+                    input.insertAdjacentElement("afterend", span);
+                };
+
+            let validacion2;
+            switch (input.id) {
+                case "nombre":
+                    validacion2=input.value.trim().match(/[A-z]/gi);
+                    break;
+
+                case "email2":
+                validacion2=input.value.trim().match(/[-.\w]+@([\w-]+\.)+[\w-]+/g);
+                    break;
+
+                case "textarea":
+                    validacion2=input.value.trim().match(/^[A-z\d@$_\-?¡!]{1,250}$/g);
+                    break;
+            };
+
+            if(span.textContent !== input.title) span.textContent = input.title;
+
+                (validacion2 === null || validacion2 === false) && (input.value !== "" || input.value.includes(" ")) 
+                ? span.classList.remove("none") 
+                : span.classList.add("none");
+        };
+    });
+});
+//Campos requeridos
+form2.addEventListener("submit", (e)=> {
+    e.preventDefault();
+    const inputs2 = document.querySelectorAll("#contacto input");
+
+    inputs2.forEach(input => {
+        let span = document.querySelector(`#${input.id}Span`);
+        
+        if(!span){
+            const spanVirtual = document.createElement("span");
+            spanVirtual.id = `#${input.id}Span`;
+            spanVirtual.classList.add("error", "none");
+            spanVirtual.textContent = "campo requerido";
+            span = spanVirtual;
+            input.insertAdjacentElement("afterend", span);
+        };
+
+        if(span.textContent !== "campo requerido") span.textContent = "campo requerido";
+        if(input.value === "") span.classList.remove("none");
+        else span.classList.add("none");
+    });
+});
